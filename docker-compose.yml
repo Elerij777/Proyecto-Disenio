@@ -1,0 +1,25 @@
+services:
+  db_reservas_proyecto:
+    image: mysql:8.0
+    container_name: reservas_proyecto
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: db_reservas_proyecto
+      MYSQL_USER: proyecto
+      MYSQL_PASSWORD: proyecto2026
+    ports:
+      # Expone el puerto 3309 de tu maquina hacia el 3306 del contenedor.
+      - "3309:3306"
+    volumes:
+      - db_data:/var/lib/mysql
+      - ./init:/docker-entrypoint-initdb.d
+    command: --default-authentication-plugin=mysql_native_password
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-uroot", "-proot"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+volumes:
+  db_data:
