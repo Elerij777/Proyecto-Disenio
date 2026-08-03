@@ -1,3 +1,12 @@
+-- =========================================================================
+-- PROYECTO 1: API DE GESTION DE RESERVAS Y ESPACIOS (CO-WORKING / EVENTOS)
+-- Script de inicializacion de la base de datos
+-- =========================================================================
+-- Este archivo lo ejecuta MySQL automaticamente la PRIMERA vez que se crea
+-- el volumen del contenedor (ver docker-compose.yml). Si lo modificas, debes
+-- recrear el volumen con: docker compose down --volumes && docker compose up -d
+-- =========================================================================
+
 USE `db_reservas_proyecto`;
 
 -- =========================================================================
@@ -42,6 +51,8 @@ CREATE TABLE IF NOT EXISTS `bookings` (
 -- =========================================================================
 -- 2. INDICES
 -- =========================================================================
+-- La consulta mas frecuente y mas critica del sistema es la de solapamiento:
+--   WHERE resource_id = ? AND status = 'CONFIRMED' AND start_time < ? AND end_time > ?
 -- Este indice compuesto permite que MySQL resuelva esa busqueda sin recorrer
 -- toda la tabla, algo que importa cada vez mas conforme crecen las reservas.
 
@@ -62,7 +73,8 @@ CREATE INDEX `idx_bookings_user`
 -- NOTA SOBRE UNA CORRECCION AL ENUNCIADO:
 -- El hash que aparece en el documento del proyecto
 --   $2b$10$EixZaYVK1fsbw1ZfbX3OXePaWxn96p36WQoeG6L6s58G8L85aY6Ke
--- NO corresponde realmente a "123456".
+-- es un hash de ejemplo muy difundido en tutoriales, y NO corresponde
+-- realmente a "123456" (se verifico con bcrypt.compare y da false).
 -- Si se dejara tal cual, ningun usuario semilla podria iniciar sesion,
 -- incluido el ADMIN, y seria imposible probar POST/PUT /resources.
 -- Por eso aqui se usan hashes bcrypt generados y verificados localmente,

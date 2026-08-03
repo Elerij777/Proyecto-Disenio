@@ -1,6 +1,6 @@
 # Servidor de Base de Datos — Proyecto de Reservas
 
-Levanta un contenedor MySQL 8.0 con la estructura y los datos de prueba del sistema de reservaciones de espacios de co-working.
+Levanta un contenedor MySQL 8.0 con la estructura y los datos de prueba del sistema de reservas de espacios de co-working.
 
 ## Prerrequisitos
 
@@ -109,3 +109,9 @@ docker compose down --volumes && docker compose up -d
 ```
 
 > Este comando **elimina todos los datos**. Es necesario si modificas `init/01-init.sql`, porque Docker solo ejecuta los scripts de inicialización la primera vez que crea el volumen.
+
+## Conectarse desde la terminal
+
+```bash
+docker exec -it reservas_unah mysql -u unah -punah2026 db_reservas_unah
+```
